@@ -1,5 +1,5 @@
 # encoding: utf-8
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import config
 from models import User
 from exts import db
@@ -21,7 +21,18 @@ def login():
     if request.method == 'GET':
         return render_template('login.html')
     else:
-        pass
+        tel = request.form.get('tel')
+        pwd = request.form.get('pwd')
+        user = User.query.filter(User.telephone == tel, User.password == pwd).first()
+
+        print tel
+        print pwd
+        if user:
+            session['user_id'] = user.uid
+            session.permanent = True
+            return redirect(url_for('index'))
+        else:
+            return u'手机号码或者密码错误，请确认后再登录.'
 
 
 @app.route('/register/', methods=['GET', 'POST'])
@@ -46,6 +57,22 @@ def register():
                 db.session.add(user)
                 db.session.commit()
                 return redirect(url_for('login'))
+
+
+@app.context_processor
+def my_context_processor():
+    user_id = session.get('user_id')
+    if user_id:
+        user = User.query.filter(User.uid == user_id).first()
+        if user:
+            return {'user': user}
+    return {}
+
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
 
 
 if __name__ == '__main__':
