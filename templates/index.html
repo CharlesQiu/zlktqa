@@ -2,6 +2,28 @@
 
 {% block title %}首页{% endblock %}
 
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
 {% block main %}
-    这是首页
+    <ul>
+        <li>
+            <div class="avatar-group">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="" class="avatar">
+            </div>
+            <div class="question-group">
+                <p class="question-title">
+                    为什么在网络上口碑不佳的华为，现实中的销量却相当好？
+                </p>
+                <p class="question-content">
+                    谢邀这是一个你不能细想的问题，因为一旦深究的话就会变得非常尴尬，比如类似的姐妹问题还有为什么在知乎上口碑稀烂的OPPO和VIVO，现实中的销量却非常好？为什么在知乎上口碑极好的小米手机，这几年的销量却总不尽人如意？如何看待深陷“爆炸门”的三星，股价却创下新高？如何看待失去消费者信任的三星手机，却成为一季度全球销量冠军？如何看待在国内市场主打“爱国牌”的华为手机，在海外销量依然比小米高？为什么在知乎上口碑相当好的特朗普，现实中却有极大的争议，支持者和反对者众多？为什么在知乎上风评如此之差的共青团中央，却能获得相当多的关注者和点赞数？为什么还有这么多的患者愿意去求诊中医，他们不知道这不是科学吗？同样是吸毒，为什么TOP和柯震东在知乎上的评价相差如此之大？同样是代言奢侈品牌，为什么吴亦凡和 Angelababy在知乎上的评价相差很大？为什么爱好和平的日本人民，却在apa酒店事件中几乎一边倒的支持酒店？如何看待森友学院丑闻发酵近一周后，知乎才有相关讨论？你看这些问题可以细想吗？所以我一直以来的观点就是，知乎的东西可以看也可以想，但千万不要全盘接受，在很多情况下，知乎和现实是完全不同的两个世界
+                </p>
+                <div class="question-info">
+                    <span class="question-author">Charles</span>
+                    <span class="question-time">发布于 2017-06-16</span>
+                </div>
+            </div>
+        </li>
+    </ul>
 {% endblock %}
