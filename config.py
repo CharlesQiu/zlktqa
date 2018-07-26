@@ -2,7 +2,7 @@
 
 import os
 
-DEBUG = True
+DEBUG = False
 
 SECRET_KEY = os.urandom(24)
 
