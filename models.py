@@ -21,3 +21,15 @@ class Question(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('user.uid'))
 
     author = db.relationship('User', backref=db.backref('questions'))
+
+
+class Comment(db.Model):
+    __tablename__ = 'comment'
+    cid = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    content = db.Column(db.Text, nullable=False)
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    qid = db.Column(db.Integer, db.ForeignKey('question.qid'))
+    aid = db.Column(db.Integer, db.ForeignKey('user.uid'))
+
+    question = db.relationship('Question', backref=db.backref('comments', order_by=create_time.desc()))
+    author = db.relationship('User', backref=db.backref('comments'))

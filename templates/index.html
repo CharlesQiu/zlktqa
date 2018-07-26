@@ -16,7 +16,7 @@
                 </div>
                 <div class="question-group">
                     <p class="question-title">
-                        <a href="#">
+                        <a href="{{ url_for("detail", qid=question.qid) }}">
                             {{ question.title }}
                         </a>
                     </p>

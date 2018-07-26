@@ -1,7 +1,7 @@
 # encoding: utf-8
 from flask import Flask, render_template, request, redirect, url_for, session
 import config
-from models import User, Question
+from models import User, Question, Comment
 from exts import db
 from decorators import login_required
 
@@ -71,13 +71,40 @@ def question():
     else:
         title = request.form.get('title')
         content = request.form.get('content')
-        question = Question(title=title, content=content)
+        que = Question(title=title, content=content)
         user_id = session.get('user_id')
         user = User.query.filter(User.uid == user_id).first()
-        question.author = user
-        db.session.add(question)
+        que.author = user
+        db.session.add(que)
         db.session.commit()
         return redirect(url_for('index'))
+
+
+@app.route('/detail/<qid>')
+def detail(qid):
+    q = Question.query.filter(Question.qid == qid).first()
+    return render_template('detail.html', question=q)
+
+
+@app.route('/comment/', methods=['POST'])
+@login_required
+def comment():
+    content = request.form.get('comment')
+    qid = request.form.get('qid')
+
+    com = Comment(content=content)
+
+    uid = session.get('user_id')
+    user = User.query.filter(User.uid == uid).first()
+    com.author = user
+
+    que = Question.query.filter(Question.qid == qid).first()
+    com.question = que
+
+    db.session.add(com)
+    db.session.commit()
+
+    return redirect(url_for('detail', qid=qid))
 
 
 @app.context_processor
