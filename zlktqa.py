@@ -107,6 +107,15 @@ def comment():
     return redirect(url_for('detail', qid=qid))
 
 
+@app.route('/search/', methods=['POST'])
+def search():
+    text = request.form.get('search_text')
+    context = {
+        'questions': Question.query.filter(Question.content.like('%' + text + '%')).order_by('-create_time')
+    }
+    return render_template('index.html', **context)
+
+
 @app.context_processor
 def my_context_processor():
     user_id = session.get('user_id')
